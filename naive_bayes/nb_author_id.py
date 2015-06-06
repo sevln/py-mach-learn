@@ -12,23 +12,25 @@
 """
     
 import sys
+# from fix import fix
 from time import time
 sys.path.append("../tools/")
 from email_preprocess import preprocess
 
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score
+
+# fixing data file due Python 3.4 incompatibilities
+# fix("../tools/word_data.pkl")
 
 ### features_train and features_test are the features for the training
 ### and testing datasets, respectively
 ### labels_train and labels_test are the corresponding item labels
 features_train, features_test, labels_train, labels_test = preprocess()
 
+clf = GaussianNB()
+clf = clf.fit(features_train, labels_train)     # training classifier
 
-
-
-#########################################################
-### your code goes here ###
-
-
-#########################################################
-
-
+# calculating accuracy
+accuracy = accuracy_score(clf.predict(features_test), labels_test)
+print(round(accuracy, 3))
